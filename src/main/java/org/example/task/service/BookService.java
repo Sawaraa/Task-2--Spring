@@ -1,7 +1,7 @@
 package org.example.task.service;
 
 import org.example.task.dto.*;
-import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 
 public interface BookService {
@@ -9,4 +9,9 @@ public interface BookService {
     BookListResponse get(Long id);
     void update(Long id, BookUpdateRequest request);
     void delete(Long id);
+    PaginationResponse getList(PaginationRequest request);
+    String generateCsv(BookReportRequest request);
+    UploadResponse upload(MultipartFile file);
+
+
 }

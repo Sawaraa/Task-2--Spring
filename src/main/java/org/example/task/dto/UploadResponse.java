@@ -9,7 +9,7 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class AuthorShortDto {
-    private Long id;
-    private String name;
+public class UploadResponse {
+    private int successCount;
+    private int failCount;
 }

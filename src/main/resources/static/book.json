@@ -1,0 +1,32 @@
+[
+  {
+    "title": "Brave New World",
+    "genre": "Dystopian, Science Fiction",
+    "published": "1932-08-30",
+    "authorId": 3
+  },
+  {
+    "title": "Moby-Dick",
+    "genre": "Adventure, Epic",
+    "published": "1851-11-14",
+    "authorId": 4
+  },
+  {
+    "title": "War and Peace",
+    "genre": "Historical Fiction, Classic",
+    "published": "1869-01-01",
+    "authorId": 5
+  },
+  {
+    "title": "Jane Eyre",
+    "genre": "Romance, Gothic Fiction",
+    "published": "1847-10-16",
+    "authorId": 6
+  },
+  {
+    "title": "The Catcher in the Rye",
+    "genre": "Fiction, Coming-of-age",
+    "published": "1951-07-16",
+    "authorId": 7
+  }
+]

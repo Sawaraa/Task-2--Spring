@@ -18,8 +18,8 @@ public class BookCreateRequest {
     @NotNull(message = "genre is required")
     private String genre;
     @NotNull(message = "published is required")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     private LocalDate published;
     @NotNull(message = "authorId is required")
     private Long authorId;
-
 }

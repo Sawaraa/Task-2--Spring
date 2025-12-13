@@ -31,6 +31,7 @@ public class AuthorController {
     }
 
     @PutMapping("/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
     public AuthorSaveResponse update(@Valid @PathVariable Long id,
                                      @RequestBody AuthorUpdateRequest updateRequest){
         updateRequest.setId(id);
