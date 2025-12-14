@@ -7,6 +7,7 @@ import org.example.task.dto.*;
 import org.example.task.repository.AuthorRepository;
 import org.example.task.repository.BookRepository;
 import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -41,6 +42,12 @@ class BookTest {
 
     @Autowired
     private AuthorRepository authorRepository;
+
+    @BeforeEach
+    public void beforeEach() {
+        bookRepository.deleteAll();
+        authorRepository.deleteAll();
+    }
 
     @AfterEach
     public void afterEach() {
@@ -330,5 +337,6 @@ class BookTest {
         assertThat(books.stream().map(Book::getTitle))
                 .containsExactlyInAnyOrder("Book One", "Book Two");
     }
+
 
 }

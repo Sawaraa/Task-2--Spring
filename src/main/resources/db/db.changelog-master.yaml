@@ -1,0 +1,4 @@
+databaseChangeLog:
+  - include:
+      file: db/001-init-schema.yaml
+
