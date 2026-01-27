@@ -11,6 +11,8 @@ import org.example.task.exceptions.NotFoundException;
 import org.example.task.repository.AuthorRepository;
 import org.example.task.repository.BookRepository;
 import org.example.task.service.BookService;
+import org.example.task.service.kafka.EmailProducer;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -26,10 +28,18 @@ public class BookServiceImpl implements BookService {
 
     private final BookRepository bookRepository;
     private final AuthorRepository authorRepository;
+    private final EmailProducer emailProducer;
 
-    public BookServiceImpl(BookRepository bookRepository, AuthorRepository authorRepository) {
+    @Value("${app.admin.email}")
+    private String adminEmail;
+
+    @Value("${spring.application.name}")
+    private String applicationName;
+
+    public BookServiceImpl(BookRepository bookRepository, AuthorRepository authorRepository, EmailProducer emailProducer) {
         this.bookRepository = bookRepository;
         this.authorRepository = authorRepository;
+        this.emailProducer = emailProducer;
     }
 
     /**
@@ -54,8 +64,17 @@ public class BookServiceImpl implements BookService {
 
         Book book = new Book(request.getTitle(), request.getGenre(), request.getPublished(), author);
         bookRepository.save(book);
+
+        EmailDto email = new EmailDto();
+        email.setTo(adminEmail);
+        email.setSubject("Created book");
+        email.setContent("Book '" + book.getTitle() + "' (ID: " + book.getId() + ") created");
+        email.setSourceService(applicationName);
+
+        emailProducer.sendEmail(email);
         return new BookSaveResponse(book.getId(), book.getTitle());
     }
+
 
     /**
      * Retrieves a single book by its ID along with its author's information.

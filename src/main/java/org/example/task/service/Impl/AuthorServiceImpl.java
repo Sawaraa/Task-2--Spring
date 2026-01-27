@@ -6,6 +6,8 @@ import org.example.task.exceptions.AuthorAlreadyExistsException;
 import org.example.task.exceptions.NotFoundException;
 import org.example.task.repository.AuthorRepository;
 import org.example.task.service.AuthorService;
+import org.example.task.service.kafka.EmailProducer;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -15,8 +17,17 @@ public class AuthorServiceImpl implements AuthorService {
 
     private final AuthorRepository authorRepository;
 
-    public AuthorServiceImpl(AuthorRepository authorRepository) {
+    private final EmailProducer emailProducer;
+
+    @Value("${app.admin.email}")
+    private String adminEmail;
+
+    @Value("${spring.application.name}")
+    private String applicationName;
+
+    public AuthorServiceImpl(AuthorRepository authorRepository, EmailProducer emailProducer) {
         this.authorRepository = authorRepository;
+        this.emailProducer = emailProducer;
     }
 
 
@@ -41,6 +52,14 @@ public class AuthorServiceImpl implements AuthorService {
 
         Author author = new Author(request.getName());
         authorRepository.save(author);
+
+        EmailDto email = new EmailDto();
+        email.setTo(adminEmail);
+        email.setSubject("Created author");
+        email.setContent("Author '" + author.getName() + "' (ID: " + author.getId() + ") was created.");
+        email.setSourceService(applicationName);
+
+        emailProducer.sendEmail(email);
 
         return new AuthorSaveResponse(author.getId(), author.getName());
     }
