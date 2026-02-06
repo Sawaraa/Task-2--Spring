@@ -3,6 +3,7 @@ package org.example.task.controller;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 
+import org.example.task.data.Book;
 import org.example.task.dto.*;
 import org.example.task.service.BookService;
 import org.springframework.http.HttpStatus;
@@ -11,6 +12,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/book")
@@ -26,6 +28,11 @@ public class BookController {
     @ResponseStatus(HttpStatus.CREATED)
     public BookSaveResponse create(@Valid @RequestBody BookCreateRequest request){
         return bookService.create(request);
+    }
+
+    @GetMapping("/list")
+    public List<BookListResponse> getAll(){
+        return bookService.getAll();
     }
 
     @GetMapping("/list/{id}")

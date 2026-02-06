@@ -1,0 +1,18 @@
+version: "3.8"
+
+services:
+  books-service:
+    build: .
+    container_name: books-service
+    ports:
+      - "8082:8082"
+    environment:
+      # Зверни увагу: якщо ти запускаєш цей файл ОКРЕМО від головного,
+      # "localhost" спрацює лише якщо порти бази та кафки прокинуті на твій комп'ютер.
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://host.docker.internal:5432/library_db
+      - SPRING_DATASOURCE_USERNAME=user
+      - SPRING_DATASOURCE_PASSWORD=password
+      - SPRING_KAFKA_BOOTSTRAP_SERVERS=host.docker.internal:9092
+      - SPRING_LIQUIBASE_ENABLED=true
+    extra_hosts:
+      - "host.docker.internal:host-gateway" # Дозволяє контейнеру бачити сервіси на твій локальній машині

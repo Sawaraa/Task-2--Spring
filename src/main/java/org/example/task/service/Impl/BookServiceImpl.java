@@ -105,6 +105,23 @@ public class BookServiceImpl implements BookService {
 
     }
 
+    @Override
+    public List<BookListResponse> getAll() {
+
+        return bookRepository.findAll()
+                .stream()
+                .map(b -> new BookListResponse(
+                        b.getId(),
+                        b.getTitle(),
+                        b.getGenre(),
+                        b.getPublished(),
+                        new AuthorShortDto(
+                                b.getAuthor().getId(),
+                                b.getAuthor().getName()
+                        )
+                ))
+                .toList();
+    }
 
     /**
      * Updates the details of an existing book.
